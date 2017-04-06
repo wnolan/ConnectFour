@@ -1,5 +1,3 @@
-// Testing github
-
 #include <FastLED.h>
 //#include <NESpad.h>
 
