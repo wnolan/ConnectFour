@@ -12,8 +12,6 @@ CRGB playercolor;
 CRGB leds[NUM_LEDS];
 
 NESpad controller[2];
-byte state1 = 0;
-byte state2 = 0;
 boolean dropped;
 
 void setup() {
@@ -32,7 +30,6 @@ void checkController(NESpad controller, int currentposition, CRGB playercolor) {
   byte state = controller.buttons();
   dropped = false;
 
-  
   if (state & NES_A) { // when A is pressed, drop the piece
     
     while ( leds[currentposition+10] == CRGB(0,0,0) && currentposition+10 < 100 ) { 
@@ -66,11 +63,10 @@ void checkController(NESpad controller, int currentposition, CRGB playercolor) {
         leds[currentposition] = playercolor; // set new current position to player's color
       } else { // if there is no position to the left
         leds[currentposition] = CRGB::Black; // set current position to black
-        cursorPosition = 41; // wrap around to left most position
+        currentposition = 41; // wrap around to left most position
         leds[currentposition] = playercolor; // set new current position to the player's color
       }
       FastLED.show(); // show the new state of the board
-      
   }
 }
 
