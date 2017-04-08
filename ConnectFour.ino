@@ -35,6 +35,7 @@ void checkController(NESpad controller, int currentposition, CRGB playercolor) {
   
   if (state & NES_A) { // when A is pressed, drop the piece
     
+    while ( leds[currentposition+10] == CRGB(0,0,0) && currentposition+10 < 100 ) { 
       // while the next place down is not taken and is inside the matrix
       leds[currentposition] = CRGB::Black; // set current position to black
       currentposition = currentposition+10; // move current position down a row
