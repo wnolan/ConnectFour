@@ -11,7 +11,10 @@ int currentposition;
 CRGB playercolor;
 CRGB leds[NUM_LEDS];
 
-NESpad controller[2];
+NESpad controller[2] = {
+  NESpad(2,3,4),  // strobe/clock/data pin numbers for controller 1
+  NESpad(5,6,7)   // strobe/clock/data pin numbers for controller 2
+};
 boolean dropped;
 
 void setup() {
@@ -19,9 +22,6 @@ void setup() {
   Serial.begin(9600);
   FastLED.addLeds<NEOPIXEL, DATA_PIN>(leds, NUM_LEDS);
   player = -1;
-
-  controller[0] = NESpad(2,3,4); // strobe/clock/data pin numbers for controller 1
-  controller[1] = NESpad(5,6,7); // strobe/clock/data pin numbers for controller 2
 }
 
 void checkController(NESpad controller, int currentposition, CRGB playercolor) {
