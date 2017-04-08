@@ -1,5 +1,5 @@
 #include <FastLED.h>
-//#include <NESpad.h>
+#include <NESpad.h>
 
 #define WIDTH 10
 #define HEIGHT 10
@@ -10,7 +10,6 @@ int player;
 int currentposition;
 CRGB playercolor;
 CRGB leds[NUM_LEDS];
-Gameboard gameboard = Gameboard(7, 6);
 
 NESpad controller[2];
 controller[0] = NESpad(2,3,4); // strobe/clock/data pin numbers for controller 1
