@@ -43,29 +43,29 @@ void checkController(NESpad controller, int currentposition, CRGB playercolor) {
   
   } else if (state & NES_LEFT) { // when left is pressed
      
-      if (currentposition > 41) { // if there is a place to the left
-        leds[currentposition] = CRGB::Black; // set current position to black 
-        currentposition--; // move currentposition to the left
-        leds[currentposition] = playercolor; // set new current position to player's color
-      } else { // if there is no position to the left
-        leds[currentposition] = CRGB::Black; // set current position to black
-        currentposition = 47; // wrap around to right most position
-        leds[currentposition] = playercolor; // set new current position to the player's color
-      }
-      FastLED.show(); // show the new state of the board
+    if (currentposition > 41) { // if there is a place to the left
+      leds[currentposition] = CRGB::Black; // set current position to black 
+      currentposition--; // move currentposition to the left
+      leds[currentposition] = playercolor; // set new current position to player's color
+    } else { // if there is no position to the left
+      leds[currentposition] = CRGB::Black; // set current position to black
+      currentposition = 47; // wrap around to right most position
+      leds[currentposition] = playercolor; // set new current position to the player's color
+    }
+    FastLED.show(); // show the new state of the board
   
   } else if (state & NES_RIGHT) { // when right is pressed
 
-      if (currentposition < 47) { // if there is a place to the right
-        leds[currentposition] = CRGB::Black; // set current position to black 
-        currentposition++; // move currentposition to the right
-        leds[currentposition] = playercolor; // set new current position to player's color
-      } else { // if there is no position to the left
-        leds[currentposition] = CRGB::Black; // set current position to black
-        currentposition = 41; // wrap around to left most position
-        leds[currentposition] = playercolor; // set new current position to the player's color
-      }
-      FastLED.show(); // show the new state of the board
+    if (currentposition < 47) { // if there is a place to the right
+      leds[currentposition] = CRGB::Black; // set current position to black 
+      currentposition++; // move currentposition to the right
+      leds[currentposition] = playercolor; // set new current position to player's color
+    } else { // if there is no position to the left
+      leds[currentposition] = CRGB::Black; // set current position to black
+      currentposition = 41; // wrap around to left most position
+      leds[currentposition] = playercolor; // set new current position to the player's color
+    }
+    FastLED.show(); // show the new state of the board
   }
 }
 
