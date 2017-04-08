@@ -27,7 +27,7 @@ void setup() {
 }
 
 
-void checkController(NESpad controller,currentposition,playercolor) {
+void checkController(NESpad controller, int currentposition, CRGB playercolor) {
   
   byte state = controller.buttons();
   dropped = false;
