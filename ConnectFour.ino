@@ -43,7 +43,6 @@ void checkController(NESpad controller,currentposition,playercolor) {
       FastLED.show(); // show the new state of the game board
       delay(500);
     }
-    switchPlayer();
     dropped = true; // after drop is complete, set dropped to true to end turn
   
   } else if (state & NES_LEFT) { // when left is pressed
@@ -75,7 +74,10 @@ void checkController(NESpad controller,currentposition,playercolor) {
   }
 }
 
-void switchPlayer() {
+void loop() {
+  
+  currentposition = 41; // (first column, 4th row)
+  
   player++; // next player and set color
   
   if ( player%2 == 0 ){
@@ -83,11 +85,6 @@ void switchPlayer() {
   } else {
     playercolor = CRGB::Yellow;
   }
-}
-
-void loop() {
-  
-  currentposition = 41; // (first column, 4th row)
 
   leds[currentposition] = playercolor; //place players peice and update
   FastLED.show();
