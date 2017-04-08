@@ -34,7 +34,7 @@ void checkController(NESpad controller, int currentposition, CRGB playercolor) {
     while ( leds[currentposition+10] == CRGB(0,0,0) && currentposition+10 < 100 ) { 
       // while the next place down is not taken and is inside the matrix
       leds[currentposition] = CRGB::Black; // set current position to black
-      currentposition = currentposition+10; // move current position down a row
+      currentposition += 10; // move current position down a row
       leds[currentposition] = playercolor; // set new current position to the player's color
       FastLED.show(); // show the new state of the game board
       delay(500);
@@ -93,7 +93,7 @@ void loop() {
   while (!dropped) // dropped initially set to false, becomes true and exits
   {
     // checks for input, changes the board accordingly, and prints new state
-    checkController(controller[player%2],currentposition,playercolor);
+    checkController(controller[player%2], currentposition, playercolor);
   }
   
   // check for winner
