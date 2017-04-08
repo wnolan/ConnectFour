@@ -24,7 +24,6 @@ void setup() {
   controller[1] = NESpad(5,6,7); // strobe/clock/data pin numbers for controller 2
 }
 
-
 void checkController(NESpad controller, int currentposition, CRGB playercolor) {
   
   byte state = controller.buttons();
@@ -70,10 +69,7 @@ void checkController(NESpad controller, int currentposition, CRGB playercolor) {
   }
 }
 
-void loop() {
-  
-  currentposition = 41; // (first column, 4th row)
-  
+void switchPlayer() {
   player++; // next player and set color
   
   if ( player%2 == 0 ){
@@ -81,8 +77,16 @@ void loop() {
   } else {
     playercolor = CRGB::Yellow;
   }
+}
 
-  leds[currentposition] = playercolor; //place players peice and update
+void loop() {
+
+  // switch players
+  switchPlayer();
+
+  // reset the cursor position and place the player's color there
+  currentposition = 41; // (first column, 4th row)
+  leds[currentposition] = playercolor;
   FastLED.show();
   
   // read controller and take action
