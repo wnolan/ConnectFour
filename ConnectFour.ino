@@ -74,6 +74,45 @@ void checkController(NESpad controller,currentposition,playercolor) {
   }
 }
 
+boolean winner(int location, CRGB color) {
+ /** 
+  *  This is what we need to work on
+  *  maybe having different methods
+  *  for checking 
+  */
+  if (location%10 == 1) { // checking first column
+    if (location>70) { // on bottom 3 rows there can't be vertical or diagonal lines downward or a vertical line upward
+      if (leds[location]==color && leds[location+1]==color && leds[location+2]==color && leds[location+3]==color) { // horizontal?
+        return true;
+      }
+      else if (leds[location]==color && leds[location-9]==color && leds[location-18]==color && leds[location-27]==color) { // diaganol?
+        return true;
+      }
+    } else { // on top 3 rows there cannot be vertical or diagonal lines downward
+      
+    } 
+ 
+  if (horizontal(location, color) {
+    return true;
+  }
+} 
+
+boolean horizontal (int location, CRGB color) {
+  if (location%10==1) { // checking first column
+    if (leds[location]==color && leds[location+1]==color && leds[location+2]==color && leds[location+3]==color) {
+      return true;
+    }
+  }
+  if (location%10==2) { // checking second column
+    if (leds[location-1]==color) {
+      if (leds[location+1]==color && leds[location+2]==color) {
+        return true;
+      }
+    }
+  }
+  
+}
+
 void loop() {
   
   currentposition = 41; // (first column, 4th row)
@@ -95,8 +134,11 @@ void loop() {
     // checks for input, changes the board accordingly, and prints new state
     checkController(controller[player%2],currentposition,playercolor);
   }
-  
-  // check for winner
+
+  if (winner(currentposition, playercolor))
+  {
+    exit;
+  }
 }
 
 
