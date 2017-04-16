@@ -25,11 +25,12 @@ int currentposition;
 CRGB playercolor;
 CRGB leds[NUM_LEDS];
 
-NESpad controller[2];
-controller[0] = NESpad(2,3,4); // strobe/clock/data pin numbers for controller 1
-controller[1] = NESpad(5,6,7); // strobe/clock/data pin numbers for controller 2
+//NESpad controller[2] {
+NESpad controller = NESpad(2,3,4), // strobe/clock/data pin numbers for controller 1
+ //NESpad(5,6,7) // strobe/clock/data pin numbers for controller 2
+//};
 byte state1 = 0;
-byte state2 = 0;
+//byte state2 = 0;
 boolean dropped;
 
 void setup() {
@@ -47,7 +48,7 @@ void setup() {
 }
 
 
-void checkController(NESpad controller,currentposition,playercolor) {
+void checkController(NESpad controller,int currentposition,CRGB playercolor) {
   
   byte state = controller.buttons();
   dropped = false;
@@ -55,7 +56,7 @@ void checkController(NESpad controller,currentposition,playercolor) {
   
   if (state & NES_A) { // when A is pressed, drop the piece
     
-    while ( leds[currentposition+10] == CRGB::White && leds[currentposition+10] < 99 ) { 
+    while ( leds[currentposition+10] == CRGB(255,255,255) && currentposition+10 < 99 ) { 
       // while the next place down is not taken and is inside the matrix
       leds[currentposition] = CRGB::White; // set current position to white
       currentposition = currentposition+10; // move current position down a row
@@ -86,7 +87,7 @@ void checkController(NESpad controller,currentposition,playercolor) {
         leds[currentposition] = playercolor; // set new current position to player's color
       } else { // if there is no position to the left
         leds[currentposition] = CRGB::White; // set current position to black
-        cursorPosition = 40; // wrap around to left most position
+        currentposition = 40; // wrap around to left most position
         leds[currentposition] = playercolor; // set new current position to the player's color
       }
       FastLED.show(); // show the new state of the board
@@ -102,28 +103,28 @@ boolean horizontal (int location, CRGB color) {
 
   switch(location%10) {
     
-    case 0: return (hleft(int location, CRGB color));
+    case 0: return (hleft(location, color));
     
-    case 1: return ( hleft(int location, CRGB color) 
-                     || hmidleft(int location, CRGB color));
+    case 1: return ( hleft(location, color) 
+                     || hmidleft(location, color));
              
-    case 2: return ( hleft(int location, CRGB color ) 
-                     || hmidleft(int location, CRGB color) 
-                     || hmidright(int location, CRGB color));
+    case 2: return ( hleft(location, color ) 
+                     || hmidleft(location, color) 
+                     || hmidright(location, color));
              
-    case 3: return ( hleft(int location, CRGB color) 
-                     || hmidleft(int location, CRGB color) 
-                     || hmidright(int location, CRGB color) 
-                     || hright(int location, CRGB color));
+    case 3: return ( hleft(location, color) 
+                     || hmidleft(location, color) 
+                     || hmidright(location, color) 
+                     || hright(location, color));
              
-    case 4: return ( hmidleft(int location, CRGB color) 
-                     || hmidright(int location, CRGB color) 
-                     || hright(int location, CRGB color));
+    case 4: return ( hmidleft(location, color) 
+                     || hmidright(location, color) 
+                     || hright(location, color));
              
-    case 5: return ( hmidright(int location, CRGB color) 
-                     || hright(int location, CRGB color));
+    case 5: return ( hmidright( location, color) 
+                     || hright(location, color));
          
-    case 6: return ( hright(int location, CRGB color));
+    case 6: return ( hright(location, color));
 
     default: return false;
   }
@@ -174,7 +175,7 @@ boolean vertical(int location, CRGB color) {
     return ( leds[location+10] == color && leds[location+20] == color && leds[location+30] == color );
   }
   else {
-    return false
+    return false;
   }
 }
 
@@ -187,7 +188,7 @@ boolean diagonal (int location, CRGB color) {
           return ( left_forward(location, color) );
           
         case 3: // center can go either direction
-          return ( left_forward(location, color 
+          return ( left_forward(location, color) 
                    || right_back(location, color) );
           
         case 4: case 5: case 6: // right side can go back
@@ -428,13 +429,14 @@ void loop() {
 
   leds[currentposition] = playercolor; //place player's peice and update
   
-  FastLED.show();
+  FastLED.show(50);
+  delay(1000);
   
   // read controller and take action
   while (!dropped) // dropped initially set to false, becomes true and exits
   {
     // checks for input, changes the board accordingly, and prints new state
-    checkController(controller[player%2],currentposition,playercolor);
+    checkController(controller,currentposition,playercolor);
   }
 
   if (winner(currentposition, playercolor))
